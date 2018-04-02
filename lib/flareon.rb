@@ -37,6 +37,15 @@ module Flareon
   end
 
   def self.resolve(name, type: "A")
+    if type == :ipv4
+      type = "A"
+    elsif type == :ipv6 
+      type = "AAAA" 
+    end
+    binding.pry
+    unless type == "A" || type == "AAAA"
+      raise "Unsupported resolve type!" 
+    end
     result = Flareon.query(name, type: type)
     if result["Status"] == 0
       return result["Answer"][0]["data"]
