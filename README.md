@@ -1,11 +1,11 @@
 # Flareon
-> A cloudflare DNS over HTTPS resolver client library.
+> A cloudflare DNS over HTTPs resolver client library.
 
 <p align="center">
   <img alt="Pokemon, gott'a catch 'em all!" src="flareon.png"/>
 <p>
 
-Cloudflare’s DNS over HTTPS [endpoint](https://cloudflare-dns.com/dns-query) supports [JSON format](https://developers.cloudflare.com/1.1.1.1/dns-over-https/json-format/) for querying [DNS](https://en.wikipedia.org/wiki/Domain_Name_System) data -- and this gem helps to use it!
+Cloudflare’s DNS over HTTPs [endpoint](https://cloudflare-dns.com/dns-query) supports [JSON format](https://developers.cloudflare.com/1.1.1.1/dns-over-https/json-format/) for querying [DNS](https://en.wikipedia.org/wiki/Domain_Name_System) data -- and this gem helps to use it!
 
 ## Installation
 
