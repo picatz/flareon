@@ -1,5 +1,5 @@
 # Flareon
-> A cloudflare DNS resolver client library.
+> A cloudflare DNS over HTTPS resolver client library.
 
 <p align="center">
   <img alt="Pokemon, gott'a catch 'em all!" src="flareon.png"/>
