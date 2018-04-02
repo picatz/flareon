@@ -79,6 +79,21 @@ module Flareon
   end
 
   # Resolve a given domain name to all addresses (IPv4/IPv6). 
+  # 
+  # == Resolve all IP addresses
+  #   results = Flareon.resolve_all("google.com")
+  #   # or
+  #   results = Flareon.resolve_all("google.com", type: :both)
+  #   # or
+  #   Flareon.resolve_all("google.com") do |ip_address|
+  #     # do something with the ip_address
+  #     puts ip_address
+  #   end
+  # == Resolve all IPv4 addresses
+  #   results = Flareon.resolve_all("google.com", type: 1)
+  #   # or
+  #   results = Flareon.resolve_all("google.com", type: "A")
+  #
   def self.resolve_all(name, type: :both)
     unless type == "A" || type == "AAAA" || type == :both
       raise "Unsupported resolve type!" 
