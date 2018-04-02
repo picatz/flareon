@@ -34,7 +34,7 @@ module Flareon
   rescue
     return false
   end
-  
+
   def self.resolve(name, type: "A")
     if type == :ipv4
       type = "A"
@@ -44,11 +44,47 @@ module Flareon
     unless type == "A" || type == "AAAA"
       raise "Unsupported resolve type!" 
     end
-    result = Flareon.query(name, type: type)
-    if result["Status"] == 0
-      return result["Answer"][0]["data"]
+    resp = Flareon.query(name, type: type)
+    if resp["Status"] == 0
+      return resp["Answer"][0]["data"]
     else
-      raise result
+      raise resp 
     end 
+  end
+
+  def self.resolve_all(name, type: :both)
+    if type == :ipv4
+      type = "A"
+    elsif type == :ipv6 
+      type = "AAAA" 
+    end
+    unless type == "A" || type == "AAAA" || type == :both
+      raise "Unsupported resolve type!" 
+    end
+    results = [] unless block_given?
+    case type
+    when "A", "AAAA"
+      resp = Flareon.query(name, type: type)
+      if resp["Status"] == 0
+        resp["Answer"].each do |answer|
+          if block_given?
+            yield answer["data"]
+          else
+            results << answer["data"]
+          end
+        end
+      else
+        raise resp 
+      end
+    when :both
+      if block_given?
+        Flareon.resolve_all(name, type: :ipv4) { |ip| yield ip }
+        Flareon.resolve_all(name, type: :ipv6) { |ip| yield ip } 
+      else
+        Flareon.resolve_all(name, type: :ipv4) { |ip| results << ip }
+        Flareon.resolve_all(name, type: :ipv6) { |ip| results << ip }
+      end
+    end
+    return results unless block_given?
   end
 end
