@@ -30,19 +30,17 @@ module Flareon
   end
 
   def self.resolve?(name, type: "A", json: false)
-    Flareon.query(name, type: type, json: json)
-    return true
+    return true if Flareon.resolve(name, type: type)
   rescue
     return false
   end
-
+  
   def self.resolve(name, type: "A")
     if type == :ipv4
       type = "A"
     elsif type == :ipv6 
       type = "AAAA" 
     end
-    binding.pry
     unless type == "A" || type == "AAAA"
       raise "Unsupported resolve type!" 
     end
