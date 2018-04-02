@@ -77,7 +77,7 @@ Flareon.resolve("google.com", type: 28)
 
 Resolve a give domain to all IPv4 and IPv6 addresses:
 ```ruby
-ip_address = Flareon.resolve_all("google.com")
+ip_addresses = Flareon.resolve_all("google.com")
 
 # or
 
