@@ -4,6 +4,20 @@ RSpec.describe Flareon do
   it "has a version number" do
     expect(Flareon::VERSION).not_to be nil
   end
+  
+  it "can query google.com" do
+    resp = Flareon.query("google.com")
+    expect(resp["Status"]).to eq(0)
+    expect(resp["TC"]).to be(true).or be(false)
+    expect(resp["RD"]).to be(true).or be(false)
+    expect(resp["RA"]).to be(true).or be(false)
+    expect(resp["AD"]).to be(true).or be(false)
+    expect(resp["CD"]).to be(true).or be(false)
+    expect(resp["Question"]).to be_a(Array)
+    expect(resp["Question"][0]).to be_a(Hash)
+    expect(resp["Answer"]).to be_a(Array)
+    expect(resp["Answer"][0]).to be_a(Hash)
+  end
 
   it "can resolve google.com" do
     resp = Flareon.resolve?("google.com")
