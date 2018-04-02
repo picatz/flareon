@@ -124,4 +124,16 @@ module Flareon
     end
     return results unless block_given?
   end
+
+  def self.batch_query(names, type: "A", json: false)
+    results = [] unless block_given?
+    names.each do |name|
+      if block_given?
+        yield Flareon.query(name, type: type, json: json)
+      else
+        results << Flareon.query(name, type: type, json: json)
+      end
+    end
+    return results unless block_given?
+  end
 end
