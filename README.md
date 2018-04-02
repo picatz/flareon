@@ -9,7 +9,7 @@ Cloudflare’s DNS over HTTPS [endpoint](https://cloudflare-dns.com/dns-query) s
 
 ## Usage
 
-Perform a basic query:
+Perform a basic DNS query over HTTPs:
 ```ruby
 Flareon.query("google.com")
 # => {
@@ -55,7 +55,7 @@ Flareon.resolve?("google.com")
 Resolve a given domain to an IP address:
 ```ruby
 Flareon.resolve("google.com")
-=> "172.217.1.46"
+# => "172.217.1.46"
 ```
 
 ## Inspiration
