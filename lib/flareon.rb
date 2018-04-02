@@ -2,10 +2,34 @@ require "httparty"
 require "flareon/version"
 
 module Flareon
+  # Base URL for cloudflare's DNS over HTTPs endpoint.
   URL    = "https://cloudflare-dns.com/dns-query".freeze
+  # Special *ct* value to add to every query.
   CT     = "application/dns-json".freeze
+  # Header sent in every query.
   HEADER = {'Content-Type': 'application/json'}
 
+  # Query the DNS over HTTPs endpoint.
+  # 
+  # == IPv4 DNS query
+  #   result = Flareon.query("google.com")
+  #   # or
+  #   result = Flareon.query("google.com", type: "A")
+  #   # or
+  #   result = Flareon.query("google.com", type: 1)
+  #
+  # == IPv6 DNS query
+  #   result = Flareon.query("google.com", type: "AAAA") 
+  #   # or
+  #   result = Flareon.query("google.com", type: 28)
+  #
+  # == Mail exchange record query
+  #   result = Flareon.query("google.com", type: "MX") 
+  #   # or
+  #   result = Flareon.query("google.com", type: 15)
+  # == Raw JSON response ( not parsed )
+  #   result = Flareon.query("google.com", json: true)
+  #
   def self.query(name, type: "A", json: false)
     buffer = StringIO.new
     query  = { name: name, type: type, ct: CT }
@@ -24,17 +48,24 @@ module Flareon
     end
   end
 
+  # Alias the query method with both nslookup and dig.
+  # This keeps a similiar API to: github.com/hrbrmstr/dnsflare
   class << self
     alias nslookup query
     alias dig query 
   end
 
+  # Check if a given domain name is resolvable to an IPv4 or IPv6 address.
   def self.resolve?(name, type: "A", json: false)
-    return true if Flareon.resolve(name, type: type)
+    Flareon.resolve_all(name) do |ip|
+      return true
+    end
+    false
   rescue
     return false
   end
 
+  # Resolve a given domain name to a IP address. 
   def self.resolve(name, type: "A")
     unless type == "A" || type == "AAAA"
       raise "Unsupported resolve type!" 
@@ -47,6 +78,7 @@ module Flareon
     end 
   end
 
+  # Resolve a given domain name to all addresses (IPv4/IPv6). 
   def self.resolve_all(name, type: :both)
     unless type == "A" || type == "AAAA" || type == :both
       raise "Unsupported resolve type!" 
