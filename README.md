@@ -1,14 +1,17 @@
 # Flareon
 > A cloudflare DNS resolver client library.
 
+Cloudflare’s DNS over HTTPS [endpoint](https://cloudflare-dns.com/dns-query) supports [JSON format](https://developers.cloudflare.com/1.1.1.1/dns-over-https/json-format/) for querying [DNS](https://en.wikipedia.org/wiki/Domain_Name_System) data.
+
 ## Installation
 
     $ gem install flareon
 
 ## Usage
 
+Perform a basic query:
 ```ruby
-Flareon.resolve("google.com")
+Flareon.query("google.com")
 # => {
 #     "Status"=>0,
 #     "TC"=>false,
@@ -21,13 +24,38 @@ Flareon.resolve("google.com")
 #    }
 ```
 
+Get the raw JSON response:
 ```ruby
-json = Flareon.resolve("google.com", json: true)
+json = Flareon.query("google.com", json: true)
 ```
 
+Specify DNS query type:
+```ruby
+Flareon.query("google.com", type: "A")
+Flareon.query("google.com", type: "AAAA")
+Flareon.query("google.com", type: "MX")
+```
+
+The `nslookup` method is an alias for the `query` method:
+```ruby
+Flareon.nslookup("google.com")
+```
+
+The `dig` method is an alias for the `query` method:
+```ruby
+Flareon.dig("google.com")
+```
+
+Check if a given name is resolvable:
 ```ruby
 Flareon.resolve?("google.com")
 # => true
+```
+
+Resolve a given domain to an IP address:
+```ruby
+Flareon.resolve("google.com")
+=> "172.217.1.46"
 ```
 
 ## Inspiration
