@@ -64,14 +64,27 @@ Flareon.resolve("google.com")
 
 Resolve a given domain to an IPv4 address:
 ```ruby
+Flareon.resolve("google.com")
 Flareon.resolve("google.com", type: "A")
-Flareon.resolve("google.com", type: :ipv4)
+Flareon.resolve("google.com", type: 1)
 ```
 
 Resolve a given domain to an IPv6 address:
 ```ruby
 Flareon.resolve("google.com", type: "AAAA")
-Flareon.resolve("google.com", type: :ipv6)
+Flareon.resolve("google.com", type: 28)
+```
+
+Resolve a give domain to all IPv4 and IPv6 addresses:
+```ruby
+Flareon.resolve_all("google.com")
+
+# or
+
+Flareon.resolve_all("google.com") do |ip_address|
+  # do something with the ip_address
+  puts ip_address
+end
 ```
 
 ## Inspiration
