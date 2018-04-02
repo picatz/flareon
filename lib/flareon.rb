@@ -36,11 +36,6 @@ module Flareon
   end
 
   def self.resolve(name, type: "A")
-    if type == :ipv4
-      type = "A"
-    elsif type == :ipv6 
-      type = "AAAA" 
-    end
     unless type == "A" || type == "AAAA"
       raise "Unsupported resolve type!" 
     end
@@ -53,11 +48,6 @@ module Flareon
   end
 
   def self.resolve_all(name, type: :both)
-    if type == :ipv4
-      type = "A"
-    elsif type == :ipv6 
-      type = "AAAA" 
-    end
     unless type == "A" || type == "AAAA" || type == :both
       raise "Unsupported resolve type!" 
     end
@@ -78,11 +68,11 @@ module Flareon
       end
     when :both
       if block_given?
-        Flareon.resolve_all(name, type: :ipv4) { |ip| yield ip }
-        Flareon.resolve_all(name, type: :ipv6) { |ip| yield ip } 
+        Flareon.resolve_all(name, type: "A")    { |ip| yield ip }
+        Flareon.resolve_all(name, type: "AAAA") { |ip| yield ip } 
       else
-        Flareon.resolve_all(name, type: :ipv4) { |ip| results << ip }
-        Flareon.resolve_all(name, type: :ipv6) { |ip| results << ip }
+        Flareon.resolve_all(name, type: "A")    { |ip| results << ip }
+        Flareon.resolve_all(name, type: "AAAA") { |ip| results << ip }
       end
     end
     return results unless block_given?
