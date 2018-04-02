@@ -58,6 +58,18 @@ Flareon.resolve("google.com")
 # => "172.217.1.46"
 ```
 
+Resolve a given domain to an IPv4 address:
+```ruby
+Flareon.resolve("google.com", type: "A")
+Flareon.resolve("google.com", type: :ipv4)
+```
+
+Resolve a given domain to an IPv6 address:
+```ruby
+Flareon.resolve("google.com", type: "AAAA")
+Flareon.resolve("google.com", type: :ipv6)
+```
+
 ## Inspiration
 
 Saw [hrbrmstr](https://github.com/hrbrmstr) working on [dnsflare](https://github.com/hrbrmstr/dnsflare) and wanted something similiar in Ruby.
