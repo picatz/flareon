@@ -49,15 +49,33 @@ RSpec.describe Flareon do
   end
 
   it "has alias 'dig' for query method" do
-    resp1 = Flareon.query("google.com", json: true)
-    resp2 = Flareon.dig("google.com", json: true)
-    expect(resp1).to eq(resp2)
+    resp1 = Flareon.query("google.com")
+    resp2 = Flareon.dig("google.com")
+    expect(resp1["Status"]).to eq(resp2["Status"])
+    expect(resp1["TC"]).to eq(resp2["TC"])
+    expect(resp1["RD"]).to eq(resp2["RD"])
+    expect(resp1["RA"]).to eq(resp2["RA"])
+    expect(resp1["AD"]).to eq(resp2["AD"])
+    expect(resp1["CD"]).to eq(resp2["CD"])
+    expect(resp1["CD"]).to eq(resp2["CD"])
+    expect(resp1["CD"]).to eq(resp2["CD"])
+    expect(resp1["Question"]).to eq(resp2["Question"])
+    expect(resp1["Answer"][0]["name"]).to eq(resp2["Answer"][0]["name"])
   end
 
   it "has alias 'nslookup' for query method" do
-    resp1 = Flareon.query("google.com", json: true)
-    resp2 = Flareon.nslookup("google.com", json: true)
-    expect(resp1).to eq(resp2)
+    resp1 = Flareon.query("google.com")
+    resp2 = Flareon.dig("google.com")
+    expect(resp1["Status"]).to eq(resp2["Status"])
+    expect(resp1["TC"]).to eq(resp2["TC"])
+    expect(resp1["RD"]).to eq(resp2["RD"])
+    expect(resp1["RA"]).to eq(resp2["RA"])
+    expect(resp1["AD"]).to eq(resp2["AD"])
+    expect(resp1["CD"]).to eq(resp2["CD"])
+    expect(resp1["CD"]).to eq(resp2["CD"])
+    expect(resp1["CD"]).to eq(resp2["CD"])
+    expect(resp1["Question"]).to eq(resp2["Question"])
+    expect(resp1["Answer"][0]["name"]).to eq(resp2["Answer"][0]["name"])
   end
 
 end
