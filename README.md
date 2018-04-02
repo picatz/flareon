@@ -29,7 +29,7 @@ Get the raw JSON response:
 json = Flareon.query("google.com", json: true)
 ```
 
-Specify DNS query type:
+Specify [DNS query type](https://en.wikipedia.org/wiki/List_of_DNS_record_types):
 ```ruby
 Flareon.query("google.com", type: "A")
 Flareon.query("google.com", type: "AAAA")
