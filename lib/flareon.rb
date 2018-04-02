@@ -8,7 +8,7 @@ module Flareon
   # Special *ct* value to add to every query.
   CT     = "application/dns-json".freeze
   # Header sent in every query.
-  HEADER = {'Content-Type': 'application/json'}
+  HEADER = { "Content-Type": "application/json" }
 
   # Query the DNS over HTTPs endpoint.
   # 
