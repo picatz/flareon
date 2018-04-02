@@ -1,4 +1,5 @@
 require "httparty"
+require "parallel"
 require "flareon/version"
 
 module Flareon
@@ -124,4 +125,27 @@ module Flareon
     end
     return results unless block_given?
   end
+
+  def self.batch_query(names, type: "A", json: false)
+    results = [] unless block_given?
+    names.each do |name|
+      if block_given?
+        yield Flareon.query(name, type: type, json: json)
+      else
+        results << Flareon.query(name, type: type, json: json)
+      end
+    end
+    return results unless block_given?
+  end
+  
+  def self.batch_query_multithreaded(names, type: "A", json: false, threads: 4)
+    results = Parallel.map(names, in_threads: threads) do |name|
+      Flareon.query(name, type: type, json: json)      
+    end
+    if block_given?
+      results.each { |result| yield result }
+    end
+    return results 
+  end
+
 end

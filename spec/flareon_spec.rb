@@ -77,5 +77,22 @@ RSpec.describe Flareon do
     expect(resp1["Question"]).to eq(resp2["Question"])
     expect(resp1["Answer"][0]["name"]).to eq(resp2["Answer"][0]["name"])
   end
+  
+  it "has a single-threaded batch query method" do
+    domains = ["google.com", "github.com", "microsoft.com", "apple.com"]
+    results = Flareon.batch_query(domains)
+    expect(results.size).to eq(domains.size)
+    results.each do |result|
+      expect(result["Status"]).to eq(0)
+    end
+  end
+
+  it "has a multi-threaded batch query method" do
+    domains = ["google.com", "github.com", "microsoft.com", "apple.com"]
+    results = Flareon.batch_query_multithreaded(domains, threads: 4) do |result|
+      expect(result["Status"]).to eq(0)
+    end
+    expect(results.size).to eq(domains.size)
+  end
 
 end
