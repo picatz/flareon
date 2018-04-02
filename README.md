@@ -28,6 +28,15 @@ Flareon.query("google.com")
 #    }
 ```
 
+Multi-threaded DNS query over HTTPs for multiple domains:
+```ruby
+domains = ["google.com", "github.com", "microsoft.com", "apple.com"]
+results = Flareon.batch_query_multithreaded(domains, threads: 4) do |result|
+  # do something with each result in a block, optionally
+  puts result["Answer"][0]["name"].chomp(".") + "\t" + result["Answer"][0]["data"]
+end
+```
+
 Get the raw JSON response:
 ```ruby
 json = Flareon.query("google.com", json: true)
