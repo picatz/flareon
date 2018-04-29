@@ -73,6 +73,7 @@ module Flareon
     end
     resp = Flareon.query(name, type: type)
     if resp["Status"] == 0
+      return nil unless resp.has_key? "Answer"
       return resp["Answer"][0]["data"]
     else
       raise resp 
