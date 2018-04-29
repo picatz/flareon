@@ -57,10 +57,8 @@ module Flareon
   end
 
   # Check if a given domain name is resolvable to an IPv4 or IPv6 address.
-  def self.resolve?(name, type: "A", json: false)
-    Flareon.resolve_all(name) do |ip|
-      return true
-    end
+  def self.resolve?(name, type: "A")
+    return true if Flareon.resolve(name, type: type) 
     false
   rescue
     return false
