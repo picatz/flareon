@@ -62,7 +62,7 @@ CommandLion::App.run do
   end
   
   command :resolve do
-    description "Resolve a given domain to an IPv4 ( or IPv6 ) address."
+    description "Resolve the given domain(s) to an IPv4 ( or IPv6 ) address."
     type :strings
    
     action do
