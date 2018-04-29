@@ -4,7 +4,6 @@ require "bundler/setup"
 require "command_lion"
 require "flareon"
 require "yaml"
-require "pry"
 
 CommandLion::App.run do
   name "flareon"
@@ -74,7 +73,6 @@ CommandLion::App.run do
 
       if stream
         arguments.each do |argument|
-          binding.pry
           result = {}
           result[argument] = Flareon.resolve(argument, type: type)
           if json
