@@ -1,0 +1,119 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "command_lion"
+require "flareon"
+require "yaml"
+require "pry"
+
+CommandLion::App.run do
+  name "flareon"
+  version Flareon::VERSION
+  description "A cloudflare DNS over HTTPs resolver command-line client."
+
+  command :query do
+    description "Query cloudflare's DNS over HTTPs resolver for the given domain(s)."
+    type :strings
+    action do
+      threads = options[:threads].argument
+      type    = options[:type].argument
+      json    = options[:json].given? ? true : false
+      stream  = options[:stream].given? ? true : false
+
+      if stream
+        Flareon.batch_query_multithreaded(arguments, type: type, threads: threads) do |result|
+          if json
+            puts result.to_json
+          else
+            puts result.to_yaml
+          end
+        end
+      else
+        if json 
+          puts Flareon.batch_query_multithreaded(arguments, type: type, threads: threads).to_json
+        else
+          puts Flareon.batch_query_multithreaded(arguments, type: type, threads: threads).to_yaml
+        end
+      end
+    end
+
+    option :type do
+      description "specify the type of record to query for (A, AAAA, MX, ect)"
+      flag "--type"
+      type :string
+      default "A"
+    end
+
+    option :threads do
+      description "specify the number of threads to use"
+      flag "--threads"
+      type :integer
+      default 1
+    end
+    
+    option :json do
+      description "use json output instead of YAML"
+      flag "--json"
+    end
+
+    option :stream do
+      description "stream results to STDOUT as they are available"
+      flag "--stream"
+    end
+  end
+  
+  command :resolve do
+    description "Resolve a given domain to an IPv4 ( or IPv6 ) address."
+    type :strings
+   
+    action do
+      type    = options[:ipv6].given? ? "AAAA" : "A"
+      all     = options[:all].given? ? true : false
+      json    = options[:json].given? ? true : false
+      stream  = options[:stream].given? ? true : false
+
+      if stream
+        arguments.each do |argument|
+          binding.pry
+          result = {}
+          result[argument] = Flareon.resolve(argument, type: type)
+          if json
+            puts result.to_json
+          else
+            puts result.to_yaml
+          end
+        end
+      else
+        results = {}
+        arguments.each do |argument|
+          results[argument] = Flareon.resolve(argument, type: type)
+        end
+        if json
+          puts results.to_json
+        else
+          puts results.to_yaml
+        end
+      end
+    end
+
+    option :ipv6 do
+      description "specify only ipv6"
+      flag "--ipv6"
+    end
+    
+    option :all do
+      description "resolve all possible IP addresses (both ipv4 and ipv6)"
+      flag "--all"
+    end
+    
+    option :json do
+      description "use json output instead of YAML"
+      flag "--json"
+    end
+
+    option :stream do
+      description "stream results to STDOUT as they are available"
+      flag "--stream"
+    end
+  end
+end
