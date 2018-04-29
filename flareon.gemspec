@@ -17,8 +17,8 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
-  spec.bindir        = 'bin'
-  spec.executable    = "huntr"
+  spec.bindir        = "bin"
+  spec.executable    = "flareon"
   spec.require_paths = ['lib']
 
   spec.add_dependency 'httparty', "~> 0.16.2"
