@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    flareon (1.0.4)
+    flareon (1.0.5)
       command_lion (= 2.0.1)
       httparty (~> 0.16.2)
       parallel (~> 1.12.1)
