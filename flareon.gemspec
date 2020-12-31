@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'httparty', ">= 0.16.2", "< 0.19.0"
-  spec.add_dependency 'parallel', ">= 1.12.1", "< 1.20.0"
+  spec.add_dependency 'parallel', ">= 1.12.1", "< 1.21.0"
   spec.add_dependency 'command_lion', "2.0.1"
   
   spec.add_development_dependency "bundler", "~> 2.0"
